@@ -19,7 +19,6 @@ addresses = []
 now = datetime.now()
 PROVIDER = "https://ctz.solidwallet.io"
 icon_service = IconService(HTTPProvider(PROVIDER, 3)) # // mainnet
-# password example wallet is 'woofwoof'
 
 def printDoge():
     print("""
