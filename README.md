@@ -46,7 +46,7 @@ The program created a transaction hash for every address on each line in the `ad
 If icontracker does not find the transaction hash it means the transaction did not get accepted. This could be because:
 
 * The wallet (/keystore) you are using does not have enough iDoge in it
-* Tt has not enough ICX in it (to pay for the transaction fees) 
+* The wallet has not enough ICX in it (to pay for the transaction fees) 
 * The address was not correct.
 
 > Be careful with re-running the program, make sure you update the addresses.txt file before running it again to prevent double pay outs!
