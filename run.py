@@ -19,6 +19,8 @@ now = datetime.now()
 PROVIDER = "https://ctz.solidwallet.io"
 icon_service = IconService(HTTPProvider(PROVIDER, 3)) # // mainnet
 
+os.system('cls||clear')
+
 # Welcome message
 def step1():
     text = input(msg_step_one)
