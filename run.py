@@ -9,7 +9,9 @@ from iconsdk.wallet.wallet import KeyWallet
 import sys
 import getpass
 from datetime import datetime
-
+from msgs.msgs import *
+import os
+import time
 
 # setting up some initial stuff
 addresses = []
@@ -17,93 +19,62 @@ now = datetime.now()
 PROVIDER = "https://ctz.solidwallet.io"
 icon_service = IconService(HTTPProvider(PROVIDER, 3)) # // mainnet
 
-def printDoge():
-    print("""
-                    ▄              ▄
-                  ▌▒█           ▄▀▒▌
-                  ▌▒▒█        ▄▀▒▒▒▐
-                 ▐▄▀▒▒▀▀▀▀▄▄▄▀▒▒▒▒▒▐
-               ▄▄▀▒░▒▒▒▒▒▒▒▒▒█▒▒▄█▒▐
-             ▄▀▒▒▒░░░▒▒▒░░░▒▒▒▀██▀▒▌
-            ▐▒▒▒▄▄▒▒▒▒░░░▒▒▒▒▒▒▒▀▄▒▒▌
-            ▌░░▌█▀▒▒▒▒▒▄▀█▄▒▒▒▒▒▒▒█▒▐
-           ▐░░░▒▒▒▒▒▒▒▒▌██▀▒▒░░░▒▒▒▀▄▌
-           ▌░▒▄██▄▒▒▒▒▒▒▒▒▒░░░░░░▒▒▒▒▌
-          ▌▒▀▐▄█▄█▌▄░▀▒▒░░░░░░░░░░▒▒▒▐
-          ▐▒▒▐▀▐▀▒░▄▄▒▄▒▒▒▒▒▒░▒░▒░▒▒▒▒▌
-          ▐▒▒▒▀▀▄▄▒▒▒▄▒▒▒▒▒▒▒▒░▒░▒░▒▒▐
-           ▌▒▒▒▒▒▒▀▀▀▒▒▒▒▒▒░▒░▒░▒░▒▒▒▌
-           ▐▒▒▒▒▒▒▒▒▒▒▒▒▒▒░▒░▒░▒▒▄▒▒▐
-            ▀▄▒▒▒▒▒▒▒▒▒▒▒░▒░▒░▒▄▒▒▒▒▌
-              ▀▄▒▒▒▒▒▒▒▒▒▒▄▄▄▀▒▒▒▒▄▀
-                ▀▄▄▄▄▄▄▀▀▀▒▒▒▒▒▄▄▀
-                   ▒▒▒▒▒▒▒▒▒▒▀▀ 
-    """)
-
 # Welcome message
 def step1():
-    text = input("""\n
-    --------------------------------------------------------------------------------
-    **********         Welcome to the awesome iDoge TX Batch Sender       **********
-    --------------------------------------------------------------------------------
-    You are about to send iDoge to all the addresses in the addresses.txt file.
-    I will ask you the amount of iDoge and the password of the keystore file later on.
-
-    
-    *** IMPORTANT: Put 1 address per line and put nothing else in there. ***
-            
-                >>>>>>  *** ONE LINE = ONE ADDRESS ***  <<<<<<\n
-            
-                    Are you sure you want to continue?\n\n(y/n)\n\n\n"""
-    )
-
+    text = input(msg_step_one)
     if text == "y":
+        os.system('cls||clear')
         step2()
     else:
+        os.system('cls||clear')
         print('\n\nOkay whatever, bye.\n\n')
         sys.exit()
 
 # Keystore check
 def step2():
-    text = input("""\n
-    \n\nAre you sure the keystore file is the one of the wallet you want to use?\n\n
-    \n\n(y/n)\n\n\n"""
-    )
+    text = input(msg_step_two)
     if text == "y":
+        os.system('cls||clear')
         step3()
     else:
+        os.system('cls||clear')
         print('\n\nWell check that and come back after! Bye.\n\n')
         sys.exit()
 
 # Amount of iDoge to be send
 def step3():
-    text = input("""
-    \n\nHow much iDoge do you want to send to each address?\n\n"""
-    )
+    text = input(msg_step_three)
     try:
         global amount_to_send
         amount_to_send = int(text)
     except:
-        print('\n\nERROR - INPUT IS NOT A NUMBER - Run program again and enter a valid amount.\n\n')
+        print('\n\n         ERROR - INPUT IS NOT A NUMBER - Run program again and enter a valid amount.\n\n')
         sys.exit()
     try:
+        os.system('cls||clear')
         step4()
     except KeyStoreException as e:
+        os.system('cls||clear')
         print(f'{e.code} - plessss try again\n\n')
         try: 
+            os.system('cls||clear')
             step4()
         except KeyStoreException as e:
+            os.system('cls||clear')
             print(f'{e.code} - Wrong again, shutting down, bye.\n\n\n')
             sys.exit()
 
 # Get the password of the keystore file.
 def step4():
-    password = getpass.getpass(prompt='\n\nPassword of the Keystore file: ') 
+    password = getpass.getpass(prompt=f'''
+    \n\n        Password of the Keystore file: ''') 
     global wallet 
     wallet = KeyWallet.load("./keystore", password)
     try:
+        os.system('cls||clear')
         step5()
     except Exception as e:
+        os.system('cls||clear')
         print('Something went wrong, check the addresses.txt file and try again. Bye\n\n')
         sys.exit()
 
@@ -118,31 +89,22 @@ def step5():
     step6()
 
 def step6():
-    text = input(f"""\n\n\n\n
-    Are you sure you want to send iDoge to all the addresses in the addresses.txt file?
-    
-    There are {len(addresses)} addresses in the file. 
-    
-    (y/n)\n\n""")
+    text = msg_step_six(addresses)
     
     if text == "y":
+        os.system('cls||clear')
         finalStep()
     else:
-        print('\n\nOkay fix your stuff and try again, bye.\n\n')
+        print('\n\n     Okay fix your stuff and try again, bye.\n\n')
         sys.exit()
 
 def finalStep():
-    text = input(F"""\n\n
-    ARE YOU REALLY SURE?
-    
-    YOU ARE GONNA SEND:
-    A TOTAL OF {amount_to_send * len(addresses) } IDOGE TO {len(addresses)} ADDRESSES.
-
-    (y/n)\n\n""")
-    
+    text = msg_final(amount_to_send, addresses)
     if text != "y":
-        print('\n\nOkay fix your stuff and try again, bye.\n\n')
+        os.system('cls||clear')
+        print('\n\n     Okay fix your stuff and try again, bye.\n\n')
         sys.exit()
+    os.system('cls||clear')
 
         
 
@@ -180,28 +142,16 @@ def main():
 if __name__ == '__main__':
     main()
     
-    print("""
-    Now I will create transactions and save them in a txt file in the /tx_reports directory. 
+    print(msg_main)
 
-    Please realize that the fact a transaction hash is created it does not 
-    mean that the transaction was successful. You can check the transaction by
-    clicking the link in the file.
-
-    Please wait will I'm working on it... It will take a while. (about 2 seconds per address)
-    """)
     for address in addresses:
         try:
-            #print(address)
             transact(address)
         except Exception as e:
             print(e)
             print(f'\nSomething went wrong trying to send to {address}\n')
     
     printDoge()
-    print('''\n
-            All done!\n\n
-            Check the /tx_reports directory for the transactions.\n\n
-            Make sure to pass on the iDoge love <3!!
-    \n\n
-    ''')
+    time.sleep(2)
+    print(msg_done)
 
